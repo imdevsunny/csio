@@ -1,0 +1,89 @@
+<script type="text/javascript">
+  $(document).ready(function () {
+
+    $("#harper_add").click(function (e) {
+      e.preventDefault();
+      console.log("harper add clicked");
+      appendHarperForm();
+      $("#harper_add").hide();
+    });
+
+    $("#harper_cancel").click(function (e) {
+      console.log("harper cancel clicked");
+      $("#harper_form").hide();
+      $("#harper_add").show();
+    });
+    
+    function appendHarperForm() {
+      $("#harper_form").append(
+        `<form method="post">
+      {% csrf_token %}
+      <div class="form-group row">
+        <input
+          type="hidden"
+          value="harper"
+          name="harper"
+          id="harper"
+        />
+
+        <label for="name" class="col-sm-2 col-form-label">Harper Name</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            placeholder="Enter harper name"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="address" class="col-sm-2 col-form-label">Harper Address</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="address"
+            name="address"
+            placeholder="Enter harper address"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="police_verification" class="col-sm-2 col-form-label">Police Verification Done</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="police_verification"
+            name="police_verification"
+            placeholder="Enter Yes or No"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="contact" class="col-sm-2 col-form-label">Contact No.</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="contact"
+            name="contact"
+            placeholder="Enter contact no."
+          />
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <div class="col-sm-10 offset-sm-2">
+          <button type="submit" id="harper_submit" class="btn btn-primary">
+            Submit
+          </button>
+          <a href='{% url 'cancel'%}' class='btn btn-danger' id='harper_cancel'>Cancel</a>
+        </div>
+      </div>
+    </form>`
+      );
+    }
+  });
+</script>

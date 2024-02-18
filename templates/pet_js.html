@@ -1,0 +1,76 @@
+<script type="text/javascript">
+  $(document).ready(function () {
+
+    $("#pet_add").click(function (e) {
+      e.preventDefault();
+      console.log("pet add clicked");
+      appendPetForm();
+      $("#pet_add").hide();
+    });
+
+    $("#pet_cancel").click(function (e) {
+      console.log("pet cancel clicked");
+      $("#pet_form").hide();
+      $("#pet_add").show();
+    });
+
+    function appendPetForm() {
+      $("#pet_form").append(
+        `<form method="post">
+      {% csrf_token %}
+      <div class="form-group row">
+        <input
+          type="hidden"
+          value="pet"
+          name="pet"
+          id="pet"
+        />
+
+        <label for="name" class="col-sm-2 col-form-label">Pet Name</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            placeholder="Enter pet name"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="make" class="col-sm-2 col-form-label">Registered (Yes/No)</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="registered"
+            name="registered"
+            placeholder="Enter registered"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="registration_no" class="col-sm-2 col-form-label">Registration No.</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="registration_no"
+            name="registration_no"
+            placeholder="Enter registration no"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10 offset-sm-2">
+          <button type="submit" id="pet_submit" class="btn btn-primary">
+            Submit
+          </button>
+          <a href='{% url 'cancel'%}' class='btn btn-danger' id='pet_cancel'>Cancel</a>
+        </div>
+      </div>
+    </form> `
+      );
+    }
+  });
+</script>

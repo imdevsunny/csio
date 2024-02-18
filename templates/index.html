@@ -1,0 +1,316 @@
+{% extends "base.html" %} {% block body %}
+<div class="container text-center" style="color: white">
+  <div class="col-6 mt-5 resident-form">
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" value="resident" name="resident" id="resident" />
+      <div class="mb-3 row">
+        <label for="exampleInputEmail1" class="col-sm-4 col-form-label"
+          >House No.</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="number"
+            class="form-control"
+            id="house_number"
+            aria-describedby="emailHelp"
+            placeholder="Enter House No."
+            value="{{user.house_number}}"
+            name="house_number"
+          />
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="exampleInputEmail1" class="col-sm-4 col-form-label"
+          >Allotee Name</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            class="form-control"
+            id="allottee_name"
+            aria-describedby="emailHelp"
+            placeholder="Enter Allottee Name"
+            {%
+            if
+            user.allotee_name
+            %}
+            value="{{user.allottee_name}}"
+            {%
+            endif
+            %}
+            name="allottee_name"
+          />
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="exampleInputEmail1" class="col-sm-4 col-form-label"
+          >Contact No.</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="number"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            placeholder="Enter Contact No."
+            value="{{user.phone}}"
+          />
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="exampleInputEmail1" class="col-sm-4 col-form-label"
+          >ID Number</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            placeholder="Enter ID Number"
+            value="{{ user.id }}"
+          />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+  <table class="table table-striped mt-5">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Relation</th>
+        <th scope="col">Age</th>
+        <th scope="col">Occupation</th>
+        <th scope="col">Phone No.</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for member in family_member %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{member.name}}</td>
+        <td>{{member.relation}}</td>
+        <td>{{member.age}}</td>
+        <td>{{member.occupation}}</td>
+        <td>{{member.phone}}</td>
+        <td>
+          <a href="{% url 'delete-member' member.id %}" class="btn btn-danger"
+            ><i class="fa-solid fa-trash-can" style="color: white"></i
+          ></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="#" id="member_add" class="btn btn-success">Add Member</a>
+
+  <div class="container mt-5" id="member_form">
+  </div>
+
+   <table class="table table-striped mt-5">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Vehicle</th>
+        <th scope="col">Make</th>
+        <th scope="col">Registration No.</th>
+        <th scope="col">Use(Personal/Commercial)</th>
+        <th scope="col">Sticker Available?</th>
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for vehicle in vehicles %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{vehicle.vehicle}}</td>
+        <td>{{vehicle.make}}</td>
+        <td>{{vehicle.registration_no}}</td>
+        <td>{{vehicle.use}}</td>
+        <td>
+          {% if vehicle.sticker %}
+          Yes
+          {% else %}
+          No
+          {% endif %}
+        </td>
+        <td>
+          <a href="{% url 'delete-vehicle' vehicle.id %}" class="btn btn-danger"
+            ><i class="fa-solid fa-trash-can" style="color: white"></i
+          ></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="#" id="vehicle_add" class="btn btn-success">Add Vehicle</a>
+
+  <div class="container mt-5" id="vehicle_form">
+    {% comment %} <form method="post">
+      {% csrf_token %}
+      <div class="form-group row">
+        <input
+          type="hidden"
+          value="vehicle"
+          name="vehicle"
+          id="vehicle"
+        />
+
+        <label for="name" class="col-sm-2 col-form-label">Vehicle</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            placeholder="Enter vehicle name"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="make" class="col-sm-2 col-form-label">Make</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="make"
+            name="make"
+            placeholder="Enter make"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="registration_no" class="col-sm-2 col-form-label">Registration No.</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="registration_no"
+            name="registration_no"
+            placeholder="Enter registration no"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="use" class="col-sm-2 col-form-label"
+          >Use</label
+        >
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="use"
+            name="use"
+            placeholder="Enter use"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="sticker" class="col-sm-2 col-form-label">Sticker Available? (Yes/No)</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="sticker"
+            name="sticker"
+            placeholder="Enter sticker"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10 offset-sm-2">
+          <button type="submit" id="vehicle_submit" class="btn btn-primary">
+            Submit
+          </button>
+          <a href='{% url 'cancel'%}' class='btn btn-danger' id='vehicle_cancel'>Cancel</a>
+        </div>
+      </div>
+    </form> {% endcomment %}
+  </div>
+
+  <table class="table table-striped mt-5">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name of Pet Animal</th>
+        <th scope="col">Registered</th>
+        <th scope="col">License/Registration No.</th>
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for pet in pets %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{pet.name}}</td>
+        <td>{% if pet.registered %}
+          Yes
+          {% else %}
+          No
+          {% endif %}</td>
+        <td>{{pet.registration_no}}</td>
+        <td>
+          <a href="{% url 'delete-pet' pet.id %}" class="btn btn-danger"
+            ><i class="fa-solid fa-trash-can" style="color: white"></i
+          ></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="#" id="pet_add" class="btn btn-success">Add Pet</a>
+
+  <div class="container mt-5" id="pet_form">
+
+  </div>
+
+  <table class="table table-striped mt-5">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name of Harper</th>
+        <th scope="col">Permanent Address (Harper)</th>
+        <th scope="col">Police Verification Done</th>
+        <th scope="col">Contact No.</th>
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for harper in harpers %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{harper.name}}</td>
+        <td>{{harper.address}}</td>
+        <td>
+          {% if harper.police_verification %}
+          Yes
+          {% else %}
+          No
+          {% endif %}
+        </td>
+        <td>{{harper.contact}}</td>
+        <td>
+          <a href="{% url 'delete-harper' harper.id %}" class="btn btn-danger"
+            ><i class="fa-solid fa-trash-can" style="color: white"></i
+          ></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="#" id="harper_add" class="btn btn-success">Add Harper</a>
+
+  <div class="container mt-5" id="harper_form">
+    
+  </div>
+
+</div>
+{% endblock body %}

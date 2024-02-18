@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% block body %}
+
+<div class="container" style="color: white">
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Phone Number</label>
+      <input
+        type="number"
+        class="form-control"
+        id="exampleInputEmail1"
+        aria-describedby="emailHelp"
+        name="phone"
+      />
+      {% comment %}
+      <div id="emailHelp" class="form-text">
+        We'll never share your email with anyone else.
+      </div>
+      {% endcomment %}
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="exampleInputPassword1"
+        name="password"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+    <a class="nav-link" href="{% url 'signup' %}"
+      >Don't have account? Click here to Create One</a
+    >
+  </form>
+</div>
+{% endblock body %}
